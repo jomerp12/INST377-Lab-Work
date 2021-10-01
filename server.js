@@ -32,15 +32,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(express.static(staticFolder));
-// app.use('/template', labRoutes);
+app.use('/template', labRoutes);
 app.use('/api', apiRoutes);
 
 async function bootServer() {
     try {
         app.listen(PORT, () => {
             // Turn these back on in later labs
-            // const mysql = await db.sequelizeDB;
-            // await mysql.sync();
+            const mysql = await db.sequelizeDB;
+            await mysql.sync();
             console.log(`Listening on: http//localhost:${PORT}`);
             console.log(`environment:`, process.env.CONTEXT);
         });
