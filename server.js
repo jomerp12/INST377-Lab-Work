@@ -3,7 +3,6 @@ import express from 'express';
 import apiRoutes from './server/routes/apiRoutes.js';
 import reload from 'livereload';
 import connectReload from 'connect-livereload';
-
 import db from './server/database/initializeDB.js';
 
 const app = express();
