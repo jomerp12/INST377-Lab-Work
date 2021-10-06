@@ -5,20 +5,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lab 6 - TypeAhead Entries</title>
+    <title>Jomer Paulino's Lab 6</title>
+    <link rel="stylesheet" href="styles.css"></link>
+    <script src="script.js" charset="UTF-8"></script>
 </head>
 
 <body>
-    <h1>Assignment 2</h1>
-    <form action="/api/" method="get" class="container">
-        <div class='form-row'>
-            <label for='first-name'><strong></strong></label>
-            <input id='first-name' name='first-name' type='text' />
-        </div>
-        <div class='form-row'>
-            <button>Submit</button>
-        </div>
+    <h1>Search PGCounty Open Data Food Service Inspection Database </h1>
+    <form method='get' class="search-form">
+        <input type="text" onkeyup="event.target.value = event.target.value.toUpperCase()" class=" search " placeholder="Name or Category ">
+        <ul class="suggestions ">
+        </ul>
     </form>
 </body>
+
+<script>
+</script>
 
 </html>
