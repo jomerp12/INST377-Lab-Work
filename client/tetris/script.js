@@ -184,16 +184,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     //add functionality to the button
     startBtn.addEventListener('click', () => {
-        if (timerId) {
+            if (timerId) {
+                clearInterval(timerId)
+                timerId = null
+            } else {
+                draw()
+                timerId = setInterval(moveDown, 1000)
+                nextRandom = Math.floor(Math.random() * theTetrominoes.length)
+                displayShape()
+            }
+        })
+        //game over
+    function gameOver() {
+        if (current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
+            scoreDisplay.innerHTML = 'end'
             clearInterval(timerId)
-            timerId = null
-        } else {
-            draw()
-            timerId = setInterval(moveDown, 1000)
-            nextRandom = Math.floor(Math.random() * theTetrominoes.length)
-            displayShape()
         }
-    })
+    }
 
     //add score
     function addScore() {
