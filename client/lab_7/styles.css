@@ -1,0 +1,71 @@
+html {
+    box-sizing: border-box;
+    background: white;
+    font-family: 'helvetica neue';
+    font-size: 20px;
+    font-weight: 200;
+}
+
+input {
+    width: 100%;
+    padding: 20px;
+}
+
+.column {
+    align-items: left;
+    flex-wrap: wrap;
+    text-align: left;
+    border-radius: 0px;
+    width: 50%;
+    margin: 0px;
+    padding: 0px;
+    margin-bottom: 0px;
+}
+
+.columns {
+    column-gap: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: left;
+    padding: 20px;
+}
+
+.h1 {
+    text-align: center;
+    border: 1px solid #D6D9DC;
+    background-color: #e9db60;
+    border-radius: 3px;
+    width: 100%;
+    margin: 20px 0;
+    padding: 20px;
+}
+
+.div {
+    column-count: 2;
+}
+
+.search-form {
+    max-width: 400px;
+}
+
+#mapid {
+    height: 180px;
+    max-width: 400px;
+}
+
+.suggestions {
+    margin: 0;
+    max-width: 400px;
+    padding: 0;
+    position: fixed;
+    font-family: "Lucida Console", "Courier New", monospace;
+    /*perspective: 20px;*/
+}
+
+span.population {
+    font-size: 15px;
+}
+
+.hl {
+    background: grey;
+}
