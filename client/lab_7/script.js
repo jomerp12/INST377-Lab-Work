@@ -2,88 +2,93 @@
 /* eslint-disable no-var */
 /* eslint-disable linebreak-style */
 /* eslint-disable indent */
+
 async function dataHandler() {
-    const endpoint = 'https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json';
-
+    const endpoint =
+        'https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json';
     const request = await fetch(endpoint);
-    const json = await request.json();
-    const inputBox = document.querySelector('#zipcode');
-    const visibleListOfFilteredItems = document.querySelector('.append-box');
+    const arrayName = await request.json();
+    let markerGroup;
 
-    function findMatches(wordToMatch, json) {
-        return json.filter(place => {
-            const zipcode = event.target.value;
-            return place.zip.match(zipcode)
-        });
+    function findMatches(wordToMatch, arrayName) {
+        const regex = new RegExp(wordToMatch, 'gi');
+        const matchArrayFive = arrayName.reduce((acc, cur) => {
+            const tempArray = acc.find(
+                (item) => item.establishment_id === cur.establishment_id
+            )
+            if (!tempArray &&
+                cur.geocoded_column_1 &&
+                cur.zip.match(regex)
+            ) {
+                acc.push(cur);
+                return acc;
+            }
+            return acc;
+        }, []);
+        return matchArrayFive.slice(0, 5);
     }
 
-    /* function filterFunction(event, data, list) {
-        const filteredList = data.filter((item, index) => {
-            const zipcode = event.target.value;
-            return item.zip === zipcode;
-        });
-        console.table(filteredList);
-    } */
-
-    function displayMatches() {
-        const matchArray = findMatches(event.target.value, json);
-        const matchArrayFive = matchArray.slice(0, 5);
-
-        matchArrayFive.forEach((item, index) => {
-            const point = item.geocoded_column_1;
-            const latLong = point.coordinates;
-            const marker = latLong.reverse();
-
-            matchArrayFive.innerHTML += `<span class="resto-name">${item.name}</span><br>`;
-
-        });
-
-        const html = matchArrayFive.map(place => {
-            const regex = new RegExp(event.target.value, 'gi');
-            const restaurantName = place.name.replace(regex, `<span class="hl">${event.target.value}</span>`);
-            const addressLine = place.address_line_1.replace(regex, `<span class="hl">${event.target.value}</span>`);
-            return `
-        <li>
-        <br>
-        <span class="name">${restaurantName}</span>
-        <br>
-        <span class="name">${addressLine}</span>
-        <br>
-        </li>
+    function displayMatches(event) {
+        const matchArray = findMatches(
+            event.target.elements.search.value,
+            arrayName
+        );
+        const html = matchArray
+            .map((establishment) => {
+                const regex = new RegExp(event.target.elements.search.value, 'gi');
+                const addressLine = establishment.address_line_1.replace(regex, `<span class="hl">${event.target.value}</span>`);
+                return `
+          <li class="list-group-item">
+            <p><strong>${establishment.name}</strong></p>
+            <p><i>${addressLine}</i></p>
+          </li>
         `
-        }).join('');
+            })
+            .join('');
         suggestions.innerHTML = html;
+
+
+        if (matchArray.length > 0) {
+            const firstItem = matchArray[0];
+            mymap.setView(
+                [
+                    firstItem.geocoded_column_1.coordinates[1],
+                    firstItem.geocoded_column_1.coordinates[0]
+                ],
+                13
+            );
+            const markers = [];
+            matchArray.forEach((establishment) => {
+                const latitude = establishment.geocoded_column_1.coordinates[1];
+                const longitude = establishment.geocoded_column_1.coordinates[0];
+                const marker = L.marker([latitude, longitude]).addTo(mymap);
+                markers.push(marker)
+            });
+            markerGroup = L.layerGroup(markers).addTo(mymap);
+        }
     }
 
+    const searchForm = document.querySelector('#searchForm');
     const searchInput = document.querySelector('.search');
     const suggestions = document.querySelector('.suggestions');
 
-    searchInput.addEventListener('change', displayMatches);
-    searchInput.addEventListener('keyup', (evt) => {
-        dataHandler(evt)
+    searchInput.addEventListener('input', (event) => {
+        if (event.target.value === '') {
+            suggestions.innerHTML = '';
+            console.log('no input');
+            markerGroup.clearLayers();
+        }
     });
-    searchInput.addEventListener('keyup', (evt) => {
-        displayMatches(evt)
+
+    searchForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        displayMatches(event);
     });
 }
 
+// Leaflet Map
 function mapInit() {
-    //Leaflet Map
-    const mymap = L.map('mapid').setView([38.989, -76.93], 12);
-    var marker = L.marker([51.5, -0.09]).addTo(mymap);
-    var circle = L.circle([51.508, -0.11], {
-        color: 'red',
-        fillColor: '#f03',
-        fillOpacity: 0.5,
-        radius: 500
-    }).addTo(mymap);
-    var polygon = L.polygon([
-        [51.509, -0.08],
-        [51.503, -0.06],
-        [51.51, -0.047]
-    ]).addTo(mymap);
-    var popup = L.popup();
-
+    const mymap = L.map('mapid').setView([38.83, -76.85], 13);
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         maxZoom: 18,
@@ -92,16 +97,8 @@ function mapInit() {
         zoomOffset: -1,
         accessToken: 'pk.eyJ1Ijoiam9tZXJwMTIiLCJhIjoiY2t1c202bTM2MHhsczJ1cGpmOXBpNm44ZyJ9.1gniEHvCPZn2FGwpvm0i2w'
     }).addTo(mymap);
-
-    /*     function onMapClick(e) {
-            popup
-                .setLatLng(e.latlng)
-                .setContent('You clicked the map at ' + e.latlng.toString())
-                .openOn(mymap);
-        } */
-
-    //mymap.on('click', onMapClick);
+    return mymap;
 }
 
 window.onload = dataHandler();
-window.onload = mapInit;
+const mymap = mapInit()

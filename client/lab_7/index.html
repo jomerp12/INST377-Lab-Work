@@ -2,31 +2,30 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jomer Paulino's Lab 7</title>
-    <link rel="stylesheet" href="styles.css"></link>
-    <script src="script.js" charset="UTF-8"></script>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jomer Paulino - Lab 7</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous" />
+    <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
-    <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-
 </head>
 
-<body>
+<body class="container wrapper">
     <h1>Jomer Paulino's Lab 7</h1>
-
-    <div class='columns'>
-        <div class='column'>
-            <form method='get' class="search-form">
-                <input type="text" class=" search " placeholder="Enter Zipcode ">
-                <ul class="suggestions ">
-                </ul>
+    <p>Zip Code Food Search</p>
+    <div class="container sections">
+        <div class="section">
+            <h3>Search</h3>
+            <form id="searchForm">
+                <input class="search form-control" type="text" name="search" id="search" placeholder="Enter Zipcode" />
             </form>
+            <ul class="suggestions list-group"></ul>
         </div>
-        <div class='column' id="mapid"></div>
+        <div class="section" id="mapid"></div>
     </div>
+    <script src="script.js"></script>
 </body>
 
 </html>
