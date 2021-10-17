@@ -17,9 +17,6 @@ input {
     text-align: left;
     border-radius: 0px;
     width: 50%;
-    margin: 0px;
-    padding: 0px;
-    margin-bottom: 0px;
 }
 
 .columns {
@@ -27,17 +24,11 @@ input {
     display: flex;
     flex-wrap: wrap;
     text-align: left;
-    padding: 20px;
 }
 
 .h1 {
     text-align: center;
-    border: 1px solid #D6D9DC;
-    background-color: #e9db60;
-    border-radius: 3px;
     width: 100%;
-    margin: 20px 0;
-    padding: 20px;
 }
 
 .div {
@@ -49,7 +40,7 @@ input {
 }
 
 #mapid {
-    height: 180px;
+    height: 400px;
     max-width: 400px;
 }
 
