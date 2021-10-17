@@ -11,21 +11,20 @@
 
 .sections {
     display: flex;
-    flex-wrap: wrap;
+    flex: auto;
     justify-content: space-around;
     flex-flow: row wrap;
-    padding: 0px;
 }
 
 .sections .section {
     flex: auto;
-    padding: 0px;
+    padding: 10px;
     max-width: 400px;
 }
 
 #mapid {
     height: 500px;
-    min-width: 400px;
+    min-width: 300px;
 }
 
 #searchForm {
